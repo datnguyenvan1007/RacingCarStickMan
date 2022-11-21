@@ -4,10 +4,6 @@ using UnityEngine;
 
 public class Car2Controller : MonoBehaviour
 {
-    GameObject obj;
-
-    Vector2 freezeTranslate;
-    Vector3 freezeRotate;
     Vector3 transformUp;
 
     Rigidbody2D rig;
@@ -18,10 +14,7 @@ public class Car2Controller : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        obj = gameObject;
         rig = gameObject.GetComponent<Rigidbody2D>();
-        freezeTranslate = new Vector2(0, 0);
-        freezeRotate = new Vector3(0, 0, 0);
     }
 
     // Update is called once per frame
@@ -34,19 +27,21 @@ public class Car2Controller : MonoBehaviour
         else if (Input.GetKey(KeyCode.S))
             rig.velocity = transformUp * speed;
         else
-            rig.velocity = freezeTranslate;
+            rig.velocity = Vector2.zero;
 
         if (Input.GetKey(KeyCode.A))
         {
-            obj.transform.Rotate(new Vector3(0, 0, rotateAngle));
+            rig.rotation += rotateAngle;
         }
         else if (Input.GetKey(KeyCode.D))
         {
-            obj.transform.Rotate(new Vector3(0, 0, -rotateAngle));
+            rig.rotation -= rotateAngle;
         }
-        else
-        {
-            obj.transform.Rotate(freezeRotate);
-        }
+    }
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+            collision.gameObject.GetComponent<Rigidbody2D>().angularVelocity = 0f;
+        gameObject.GetComponent<Rigidbody2D>().angularVelocity = 0f;
     }
 }
