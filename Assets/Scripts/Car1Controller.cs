@@ -11,6 +11,10 @@ public class Car1Controller : MonoBehaviour
     public float speed;
 
     public float rotateAngle;
+
+    public GameObject gameController;
+
+    private int[] score = { 0, 0 };
     // Start is called before the first frame update
     void Start()
     {
@@ -44,5 +48,33 @@ public class Car1Controller : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
             collision.gameObject.GetComponent<Rigidbody2D>().angularVelocity = 0f;
         gameObject.GetComponent<Rigidbody2D>().angularVelocity = 0f;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            speed /= 2;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            speed *= 2;
+        }
+        if (collision.gameObject.CompareTag("tempLine") && score[0] == (score[1] - 1))
+        {
+            score[0]++;
+        }
+        if (collision.gameObject.CompareTag("StartLine") && score[0] == score[1])
+        {
+            score[1]++;
+        }
+        if (score[0] < score[1])
+        {
+            gameController.GetComponent<GameController>().DisplayScore(score[0], 0);
+        }
     }
 }
