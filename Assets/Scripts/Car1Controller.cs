@@ -50,11 +50,28 @@ public class Car1Controller : MonoBehaviour
         gameObject.GetComponent<Rigidbody2D>().angularVelocity = 0f;
     }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ring"))
+        {
+            speed /= 2;
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ring"))
+        {
+            speed *= 2;
+        }
+
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
         {
-            speed /= 2;
+            speed /= 3;
         }
     }
 
@@ -62,7 +79,7 @@ public class Car1Controller : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Ground"))
         {
-            speed *= 2;
+            speed *= 3;
         }
         if (collision.gameObject.CompareTag("tempLine") && score[0] == (score[1] - 1))
         {
@@ -75,6 +92,10 @@ public class Car1Controller : MonoBehaviour
         if (score[0] < score[1])
         {
             gameController.GetComponent<GameController>().DisplayScore(score[0], 0);
+        }
+        if (score[1] == 4)
+        {
+            gameController.GetComponent<GameController>().DisplayEndGame(0);
         }
     }
 }

@@ -11,6 +11,9 @@ public class GameController : MonoBehaviour
     private bool isPause;
 
     public Text[] score;
+
+    public GameObject[] winner;
+    public GameObject[] scene;
     void Start()
     {
         isPause = false;
@@ -34,5 +37,21 @@ public class GameController : MonoBehaviour
     public void DisplayScore(int scorePlay, int player)
     {
         score[player].text = scorePlay.ToString() + "/3";
+    }
+    public void DisplayEndGame(int player)
+    {
+        scene[0].SetActive(false);
+        scene[1].SetActive(true);
+        if (player == 0)
+        {
+            winner[0].SetActive(true);
+            winner[1].SetActive(false);
+        }
+        else
+        {
+            winner[0].SetActive(false);
+            winner[1].SetActive(true);
+        }
+        Time.timeScale = 0;
     }
 }
