@@ -14,15 +14,17 @@ public class Car1Controller : MonoBehaviour
 
     public GameObject gameController;
 
+    private float rotate;
     private int[] score = { 0, 0 };
     // Start is called before the first frame update
     void Start()
     {
         rig = gameObject.GetComponent<Rigidbody2D>();
+        rotate = rig.rotation;
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         transformUp = transform.up;
         transformUp.Normalize();
@@ -35,11 +37,13 @@ public class Car1Controller : MonoBehaviour
 
         if (Input.GetKey(KeyCode.LeftArrow))
         {
-            rig.rotation += rotateAngle;
+            rotate += rotateAngle;
+            rig.MoveRotation(rotate);
         }
         if (Input.GetKey(KeyCode.RightArrow))
         {
-            rig.rotation -= rotateAngle;
+            rotate -= rotateAngle;
+            rig.MoveRotation(rotate);
         }
     }
 
@@ -95,7 +99,7 @@ public class Car1Controller : MonoBehaviour
         }
         if (score[1] == 4)
         {
-            gameController.GetComponent<GameController>().DisplayEndGame(0);
+            gameController.GetComponent<GameController>().EndGame(0);
         }
     }
 }
