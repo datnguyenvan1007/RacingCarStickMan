@@ -16,11 +16,14 @@ public class Car2Controller : MonoBehaviour
 
     private float rotate;
     private int[] score = { 0, 0 };
+
+    Animator anim;
     // Start is called before the first frame update
     void Start()
     {
         rig = gameObject.GetComponent<Rigidbody2D>();
         rotate = rig.rotation;
+        anim = gameObject.GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -77,6 +80,10 @@ public class Car2Controller : MonoBehaviour
         {
             speed /= 3;
         }
+        if (collision.gameObject.CompareTag("StartLine"))
+        {
+            anim.SetBool("IsCross", true);
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -100,6 +107,10 @@ public class Car2Controller : MonoBehaviour
         if (score[1] == 4)
         {
             gameController.GetComponent<GameController>().EndGame(1);
+        }
+        if (collision.gameObject.CompareTag("StartLine"))
+        {
+            anim.SetBool("IsCross", false);
         }
     }
 }
