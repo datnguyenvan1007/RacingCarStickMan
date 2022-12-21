@@ -67,6 +67,8 @@ public class GameController : MonoBehaviour
         }
         yield return new WaitForSeconds(1);
         menu.SetActive(true);
+        if (player == 1)
+            DisplayMenu();
         Time.timeScale = 0;
     }
 
