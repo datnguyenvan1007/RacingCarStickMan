@@ -22,6 +22,7 @@ public class GameController : MonoBehaviour
     {
         isPause = false;
         audioSource = gameObject.GetComponent<AudioSource>();
+        Time.timeScale = 1;
     }
 
     public void PauseOrPlayGame()
@@ -67,6 +68,14 @@ public class GameController : MonoBehaviour
         yield return new WaitForSeconds(1);
         menu.SetActive(true);
         Time.timeScale = 0;
+    }
+
+    public void DisplayMenu()
+    {
+        scene[0].SetActive(false);
+        scene[1].SetActive(false);
+        scene[2].SetActive(true);
+        audioSource.Pause();
     }
 
     public void PlayAgain()
